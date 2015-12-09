@@ -130,7 +130,6 @@ const CGFloat imageScale = 16.0f/9;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    NSLog(@"offset:%f",scrollView.contentOffset.y);
     //避免与下面的代理方法冲突，直接设置到400
     self.tableView.contentInset = UIEdgeInsetsMake(400-64, 0, 0, 0);
     self.yOffset = scrollView.contentOffset.y;
@@ -145,33 +144,26 @@ const CGFloat imageScale = 16.0f/9;
             }else{
                 radius = (150.0 - (-self.yOffset))*1.0/(150 - 64)*1.0f;
             }
-            self.visualEffectView.alpha = radius;
             if (self.yOffset > - 64.0f) {
                 
             }else{
                 
             }
         }
-    }else if ((self.yOffset >= -320.0) && (self.yOffset < 180.0f)) {//320->180
-        CGFloat x2 = (-self.yOffset)*imageScale;
+    }else if ((self.yOffset >= -320.0) && (self.yOffset < 180.0f)) {//320->180 变小
+        CGFloat x2 = (-self.yOffset + 64)*imageScale;
         CGFloat originX = -((x2 - 320.0)/2);
-        self.headImageView.frame = CGRectMake(originX, self.yOffset, x2, - self.yOffset);
-        self.visualEffectView.frame = self.headImageView.frame;
-        self.visualEffectView.alpha = 0.0;
-        self.headImageView.image = self.headerImage;
-        
-    }else{// >320
-        CGFloat x2 = (-self.yOffset)*imageScale;
+        CGRect rect = CGRectMake(originX, 0, x2, - self.yOffset + 64);
+        self.bottomImageView.frame = rect;
+    }else{// >320  变大
+        CGFloat x2 = (-self.yOffset + 64)*imageScale;
         CGFloat originX = -((x2 - 320.0)/2);
-        self.headImageView.frame = CGRectMake(originX, self.yOffset, x2, - self.yOffset);
-        self.headImageView.image = self.headerImage;
-        self.visualEffectView.frame = self.headImageView.frame;
-        self.visualEffectView.alpha = 0.0;
+        CGRect rect = CGRectMake(originX, 0, x2, - self.yOffset + 64);
+        self.bottomImageView.frame = rect;
     }
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
-    NSLog(@"end yoffset:%f",targetContentOffset->y);
     if (self.yOffset > (-320.0 + 64)) {
         targetContentOffset->x = 0.0f;
         if (targetContentOffset->y >= (-400.0f+64) && targetContentOffset->y <= (-320.0 + 64)) {
