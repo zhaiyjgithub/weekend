@@ -17,17 +17,9 @@
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,assign)CGFloat yOffset;
 @property(nonatomic,strong)UIImage * headerImage;
-@property(nonatomic,strong)UIImage * blurHeigestImage;
-@property(nonatomic,strong)CIContext * context;
-@property(nonatomic,strong)CIImage * ciImage;
-@property(nonatomic,strong)UIView * stausBackgroundView;
-@property(nonatomic,strong)UIVisualEffectView * visualEffectView;
-@property(nonatomic,weak)UIVisualEffectView * navigationVisualView;
-
-@property(nonatomic,strong)UIImage * stautsImage;
-
 @property(nonatomic,strong)UIImageView * bottomImageView;
-
+@property(nonatomic,strong)UIVisualEffectView * visualEffectView;
+@property(nonatomic,strong)UILabel * contentLabel;
 
 @end
 
@@ -41,7 +33,7 @@ const CGFloat imageScale = 16.0f/9;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"summer";
-    self.view.backgroundColor = [UIColor yellowColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"tower" ofType:@"png"];
@@ -54,17 +46,17 @@ const CGFloat imageScale = 16.0f/9;
     self.bottomImageView.image = self.headerImage;
     [self.view addSubview:self.bottomImageView];
     
+    UIBlurEffect *beffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIVisualEffectView * visualView = [[UIVisualEffectView alloc]initWithEffect:beffect];
+    visualView.frame = self.bottomImageView.frame;
+    visualView.alpha = 0.01;
+    self.visualEffectView = visualView;
+    [self.view addSubview:visualView];
+    
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.tableView];
     
-    
-//    UIBlurEffect *beffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-//    UIVisualEffectView * visualView = [[UIVisualEffectView alloc]initWithEffect:beffect];
-//    visualView.frame = self.headImageView.frame;
-//    visualView.alpha = 1.0;
-//    self.visualEffectView = visualView;
-//    [self.tableView addSubview:visualView];
-    
+    [self.tableView addSubview:self.contentLabel];
 }
 
 - (UIImage *)imageFromView: (UIView *) theView size:(CGSize)size
@@ -134,32 +126,50 @@ const CGFloat imageScale = 16.0f/9;
     self.tableView.contentInset = UIEdgeInsetsMake(400-64, 0, 0, 0);
     self.yOffset = scrollView.contentOffset.y;
     
-    if (self.yOffset >=  - 180.0 ) {//180->0
-        self.headImageView.frame = CGRectMake(0, -180, 320, 180);
-        self.visualEffectView.frame = self.headImageView.frame;
-        if (self.yOffset > - 150.0) {
-            CGFloat radius = 0.0f;
-            if (self.yOffset > -64.0) {
-                radius = 0.0f;
-            }else{
-                radius = (150.0 - (-self.yOffset))*1.0/(150 - 64)*1.0f;
-            }
-            if (self.yOffset > - 64.0f) {
-                
-            }else{
-                
-            }
-        }
-    }else if ((self.yOffset >= -320.0) && (self.yOffset < 180.0f)) {//320->180 变小
+    if (self.yOffset >= 0.0) {//blur=1.0+大小不变
+        self.contentLabel.alpha = 0.0f;
+        CGFloat x2 = (180)*imageScale;
+        CGFloat originX = -((x2 - 320.0)/2);
+        CGRect rect = CGRectMake(originX, 0, x2, 180);
+        self.bottomImageView.frame = rect;
+        self.visualEffectView.frame = rect;
+        self.visualEffectView.alpha = 1.0;
+        
+    }else if (self.yOffset < -0.0 && self.yOffset >= -120.0){//blur*radius + 偏移速度较慢()
+        self.contentLabel.alpha = 0.0f;
+        CGFloat radius = (self.yOffset - (-120.0))*1.0/(120);
+        CGFloat originYoffset = radius * 40;
+        CGFloat x2 = (180+64)*imageScale;
+        CGFloat originX = -((x2 - 320.0)/2);
+        CGRect rect = CGRectMake(originX, -originYoffset, x2, 180+64);
+        self.bottomImageView.frame = rect;
+        self.visualEffectView.frame = rect;
+        self.visualEffectView.alpha = radius;
+    }else if (self.yOffset < -120.0 && self.yOffset >= -180.0){//blur=0.0,保持
+        self.contentLabel.alpha = 0.0f;
+        CGFloat x2 = (180+64)*imageScale;
+        CGFloat originX = -((x2 - 320.0)/2);
+        CGRect rect = CGRectMake(originX, 0, x2, 180+64);
+        self.bottomImageView.frame = rect;
+        self.visualEffectView.frame = rect;
+        self.visualEffectView.alpha = 0.0;
+    }else if ((self.yOffset >= -180.0) && (self.yOffset < 280.0f)) {//320->180 变小
+        self.contentLabel.alpha = 0.0f;
+        self.visualEffectView.alpha = 0.0f;
         CGFloat x2 = (-self.yOffset + 64)*imageScale;
         CGFloat originX = -((x2 - 320.0)/2);
         CGRect rect = CGRectMake(originX, 0, x2, - self.yOffset + 64);
         self.bottomImageView.frame = rect;
-    }else{// >320  变大
+        self.visualEffectView.frame = rect;
+    }else{// >336  变大 + 继续blur
+        CGFloat radius = (fabsf(self.yOffset) - (280))*1.0/(336 - 280);
+        self.visualEffectView.alpha = radius - 0.1;
+        self.contentLabel.alpha = radius;
         CGFloat x2 = (-self.yOffset + 64)*imageScale;
         CGFloat originX = -((x2 - 320.0)/2);
         CGRect rect = CGRectMake(originX, 0, x2, - self.yOffset + 64);
         self.bottomImageView.frame = rect;
+        self.visualEffectView.frame = rect;
     }
 }
 
@@ -194,16 +204,17 @@ const CGFloat imageScale = 16.0f/9;
     return _animaObj;
 }
 
-- (UIView *)stausBackgroundView{
-    if (!_stausBackgroundView) {
-        _stausBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
-        _stausBackgroundView.backgroundColor = [UIColor redColor];
-        
-        UIImageView * statusBarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
-       // [_stausBackgroundView addSubview:statusBarImageView];
-        statusBarImageView.image = self.stautsImage;
+- (UILabel *)contentLabel{
+    if (!_contentLabel) {
+        _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -((400)/2 - 30), 320, 60)];
+        _contentLabel.text = @"happy,weekend";
+        _contentLabel.textColor = [UIColor whiteColor];
+        _contentLabel.font = [UIFont systemFontOfSize:28.0f];
+        _contentLabel.textAlignment = NSTextAlignmentCenter;
+        _contentLabel.backgroundColor = [UIColor clearColor];
+        _contentLabel.alpha = 0.0f;
     }
-    return _stausBackgroundView;
+    return _contentLabel;
 }
 
 - (UIImage *)imageWithColor:(UIColor *)color
