@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface detailItemViewController : UIViewController
-@property(nonatomic,strong)UIImageView * headImageView;
+@property(nonatomic,strong)UIImageView * bottomImageView;
+@property(nonatomic,assign)CGRect imageViewOriginRect;
 @end

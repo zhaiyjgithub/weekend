@@ -18,6 +18,7 @@
 		4F971DFC1C180BAE002EF5B3 /* detailItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F971DF81C180BAE002EF5B3 /* detailItemViewController.m */; };
 		4F971DFD1C180BAE002EF5B3 /* tower.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F971DF91C180BAE002EF5B3 /* tower.png */; };
 		4F971DFE1C180BAE002EF5B3 /* springViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F971DFB1C180BAE002EF5B3 /* springViewController.m */; };
+		84DC8B7E1C1B1E7C004DC21B /* godfather.png in Resources */ = {isa = PBXBuildFile; fileRef = 84DC8B7D1C1B1E7C004DC21B /* godfather.png */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		4F971DF91C180BAE002EF5B3 /* tower.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tower.png; sourceTree = "<group>"; };
 		4F971DFA1C180BAE002EF5B3 /* springViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = springViewController.h; sourceTree = "<group>"; };
 		4F971DFB1C180BAE002EF5B3 /* springViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = springViewController.m; sourceTree = "<group>"; };
+		84DC8B7D1C1B1E7C004DC21B /* godfather.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = godfather.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				4F971DF51C180B9F002EF5B3 /* animationObjcet.m */,
 				4F971DF71C180BAE002EF5B3 /* detailItemViewController.h */,
 				4F971DF81C180BAE002EF5B3 /* detailItemViewController.m */,
+				84DC8B7D1C1B1E7C004DC21B /* godfather.png */,
 				4F971DF91C180BAE002EF5B3 /* tower.png */,
 				4F971DFA1C180BAE002EF5B3 /* springViewController.h */,
 				4F971DFB1C180BAE002EF5B3 /* springViewController.m */,
@@ -218,6 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F971DDA1C180B55002EF5B3 /* Main.storyboard in Resources */,
+				84DC8B7E1C1B1E7C004DC21B /* godfather.png in Resources */,
 				4F971DFD1C180BAE002EF5B3 /* tower.png in Resources */,
 				4F971DDF1C180B55002EF5B3 /* LaunchScreen.xib in Resources */,
 				4F971DDC1C180B55002EF5B3 /* Images.xcassets in Resources */,

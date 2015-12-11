@@ -17,7 +17,7 @@
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,assign)CGFloat yOffset;
 @property(nonatomic,strong)UIImage * headerImage;
-@property(nonatomic,strong)UIImageView * bottomImageView;
+
 @property(nonatomic,strong)UIVisualEffectView * visualEffectView;
 @property(nonatomic,strong)UILabel * contentLabel;
 
@@ -35,23 +35,10 @@ const CGFloat imageScale = 16.0f/9;
     self.title = @"summer";
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"tower" ofType:@"png"];
-    self.headerImage =[UIImage imageWithContentsOfFile:path];
-    
-    int x2 = 320*imageScale;
-    int originX = -((x2 - 320.0)/2);
-    self.bottomImageView = [[UIImageView alloc] init];
-    self.bottomImageView.frame = CGRectMake(originX, 0, x2, 320);
-    self.bottomImageView.image = self.headerImage;
+
     [self.view addSubview:self.bottomImageView];
-    
-    UIBlurEffect *beffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    UIVisualEffectView * visualView = [[UIVisualEffectView alloc]initWithEffect:beffect];
-    visualView.frame = self.bottomImageView.frame;
-    visualView.alpha = 0.01;
-    self.visualEffectView = visualView;
-    [self.view addSubview:visualView];
+
+    [self.view addSubview:self.visualEffectView];
     
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.tableView];
@@ -128,7 +115,7 @@ const CGFloat imageScale = 16.0f/9;
     
     if (self.yOffset >= 0.0) {//blur=1.0+大小不变
         self.contentLabel.alpha = 0.0f;
-        CGFloat x2 = (180)*imageScale;
+        CGFloat x2 = (180 + 64)*imageScale;
         CGFloat originX = -((x2 - 320.0)/2);
         CGRect rect = CGRectMake(originX, 0, x2, 180);
         self.bottomImageView.frame = rect;
@@ -215,6 +202,28 @@ const CGFloat imageScale = 16.0f/9;
         _contentLabel.alpha = 0.0f;
     }
     return _contentLabel;
+}
+
+- (UIImageView *)bottomImageView{
+    if (!_bottomImageView) {
+        
+        int x2 = 320*imageScale;
+        int originX = -((x2 - 320.0)/2);
+        _bottomImageView = [[UIImageView alloc] init];
+        _bottomImageView.frame = CGRectMake(originX, 0, x2, 320);
+    }
+    return _bottomImageView;
+}
+
+- (UIVisualEffectView *)visualEffectView{
+    if (!_visualEffectView) {
+        UIBlurEffect *beffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        _visualEffectView = [[UIVisualEffectView alloc]initWithEffect:beffect];
+        _visualEffectView.frame = self.bottomImageView.frame;
+        _visualEffectView.alpha = 0.01;
+        [self.view addSubview:_visualEffectView];
+    }
+    return _visualEffectView;
 }
 
 - (UIImage *)imageWithColor:(UIColor *)color

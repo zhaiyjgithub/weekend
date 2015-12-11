@@ -11,75 +11,55 @@
 #import "detailItemViewController.h"
 #import "springViewController.h"
 
-@interface ViewController () <UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface ViewController () <UINavigationControllerDelegate>
 @property(nonatomic,strong)animationObjcet * animaObj;
-@property(nonatomic,strong)UITableView * tableView;
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.title = @"season";
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [self.view addSubview:self.tableView];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 0.01f;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 30;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString * cellID;
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:cellID];
-    }
+   
+    UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(80, 100 ,160, 90)];
+    imageView.image = [UIImage imageNamed:@"tower.png"];
+    imageView.userInteractionEnabled = YES;
+    [self.view addSubview:imageView];
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%ld",indexPath.row];
+    UITapGestureRecognizer * gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImageView:)];
     
-    return cell;
+    [imageView addGestureRecognizer:gesture];
+    
+    UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(100, 250, 100, 64)];
+    [btn setTitle:@"next" forState:(UIControlStateNormal)];
+    [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+    btn.backgroundColor = [UIColor redColor];
+   // [btn setBackgroundColor:[UIColor colorWithRed:68 green:131 blue:204 alpha:0]];
+    [btn addTarget:self action:@selector(clickBtn) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.view addSubview:btn];
+
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (indexPath.row == 1) {
-        self.navigationController.delegate = self;
-        detailItemViewController *detailItemVC  = [[detailItemViewController alloc] init];
-        [self.navigationController pushViewController:detailItemVC animated:YES];
-    }else{
-        springViewController * springVC = [[springViewController alloc] init];
-        springVC.title = @"spring";
-        [self.navigationController pushViewController:springVC animated:YES];
-    }
-    
+- (void)tapImageView:(UITapGestureRecognizer *)gesture{
+    self.navigationController.delegate = self;
+    detailItemViewController * detailItemVC = [[detailItemViewController alloc] init];
+    detailItemVC.imageViewOriginRect = gesture.view.frame;
+    detailItemVC.bottomImageView.image = ((UIImageView *)gesture.view).image;
+    [self.navigationController pushViewController:detailItemVC animated:YES];
 }
 
-- (UITableView *)tableView{
-    if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:(UITableViewStyleGrouped)];
-        // _tableView.contentInset = UIEdgeInsetsMake(middleInsertHeight, 0, 0, 0);
-        _tableView.delegate = self;
-        _tableView.dataSource = self;
-    }
-    return _tableView;
+- (void)clickBtn{
+    springViewController * springVC = [[springViewController alloc] init];
+    [self.navigationController pushViewController:springVC animated:YES];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.delegate = nil;
-    
-    ////改变bar的背景颜色
-    //[[UINavigationBar appearance] setBarTintColor:kColor(53, 184, 174)];
-    ////改变bar上面的按钮的颜
-    
-    
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -97,35 +77,6 @@
         _animaObj = [[animationObjcet alloc] init];
     }
     return _animaObj;
-}
-
-- (UIImage *)imageWithColor:(UIColor *)color
-{
-    // 描述矩形
-    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    
-    // 开启位图上下文
-    UIGraphicsBeginImageContext(rect.size);
-    // 获取位图上下文
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    // 使用color演示填充上下文
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    // 渲染上下文
-    CGContextFillRect(context, rect);
-    // 从上下文中获取图片
-    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
-    // 结束上下文
-    UIGraphicsEndImageContext();
-    
-    return theImage;
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
-}
-
-- (BOOL)prefersStatusBarHidden{
-    return NO;
 }
 
 @end

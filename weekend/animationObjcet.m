@@ -31,25 +31,25 @@
     
     if ([fromVC isKindOfClass:[ViewController class]]) { //push
         toViewController.view.alpha = 0.0;
-        UIImageView * toViewFoodImageView = ((detailItemViewController *)toViewController).headImageView;
+        UIImageView * toViewFoodImageView = ((detailItemViewController *)toViewController).bottomImageView;
         
-        toViewFoodImageView.frame = CGRectMake(-500, -320, 568, 320);
+        toViewFoodImageView.frame =  ((detailItemViewController *)toViewController).imageViewOriginRect;///CGRectMake(-500, -320, 568, 320);
         
-        [UIView animateWithDuration:0.5f animations:^{
+        [UIView animateWithDuration:0.3f animations:^{
             toViewController.view.alpha = 1.0;
             CGFloat imageScale = 16.0f/9;
             int x2 = 320*imageScale;
             int originX = -((x2 - 320.0)/2);
-            toViewFoodImageView.frame = CGRectMake(originX, -320, x2, 320);
+            toViewFoodImageView.frame = CGRectMake(originX, 0, x2, 320);
         } completion:^(BOOL finished) {
             [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
         }];
     }else if ([fromVC isKindOfClass:[detailItemViewController class]]){//pop
         toViewController.view.alpha = 0.0f;
-        UIImageView * fromFoodImageView = ((detailItemViewController *)fromVC).headImageView;
-        [UIView animateWithDuration:0.15f animations:^{
+        UIImageView * fromFoodImageView = ((detailItemViewController *)fromVC).bottomImageView;
+        [UIView animateWithDuration:0.1f animations:^{
             toViewController.view.alpha = 1.0f;
-            fromFoodImageView.frame = CGRectMake(20, 400, 320, 180);
+            fromFoodImageView.frame =  ((detailItemViewController *)fromVC).imageViewOriginRect;//CGRectMake(20, 400, 320, 180);
         } completion:^(BOOL finished) {
             [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
         }];
