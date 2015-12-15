@@ -21,13 +21,13 @@
     // 可以看做为destination ViewController
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     // 可以看做为source ViewController
-    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+   // UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     // 添加toView到容器上
     [[transitionContext containerView] addSubview:toViewController.view];
     
-    UIView * container = [transitionContext containerView];
+  //  UIView * container = [transitionContext containerView];
     UIViewController * fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    UIViewController * toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+   // UIViewController * toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     if ([fromVC isKindOfClass:[ViewController class]]) { //push
         toViewController.view.alpha = 0.0;

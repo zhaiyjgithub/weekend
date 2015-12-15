@@ -37,12 +37,11 @@ const CGFloat imageScale = 16.0f/9;
     self.automaticallyAdjustsScrollViewInsets = NO;
 
     [self.view addSubview:self.bottomImageView];
-
     [self.view addSubview:self.visualEffectView];
     
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.tableView];
-    
+
     [self.tableView addSubview:self.contentLabel];
 }
 
@@ -116,7 +115,7 @@ const CGFloat imageScale = 16.0f/9;
     if (self.yOffset >= 0.0) {//blur=1.0+大小不变
         self.contentLabel.alpha = 0.0f;
         CGFloat x2 = (180 + 64)*imageScale;
-        CGFloat originX = -((x2 - 320.0)/2);
+        CGFloat originX = -((x2 - kScreenWidth)/2);
         CGRect rect = CGRectMake(originX, 0, x2, 180);
         self.bottomImageView.frame = rect;
         self.visualEffectView.frame = rect;
@@ -127,7 +126,7 @@ const CGFloat imageScale = 16.0f/9;
         CGFloat radius = (self.yOffset - (-120.0))*1.0/(120);
         CGFloat originYoffset = radius * 40;
         CGFloat x2 = (180+64)*imageScale;
-        CGFloat originX = -((x2 - 320.0)/2);
+        CGFloat originX = -((x2 - kScreenWidth)/2);
         CGRect rect = CGRectMake(originX, -originYoffset, x2, 180+64);
         self.bottomImageView.frame = rect;
         self.visualEffectView.frame = rect;
@@ -135,7 +134,7 @@ const CGFloat imageScale = 16.0f/9;
     }else if (self.yOffset < -120.0 && self.yOffset >= -180.0){//blur=0.0,保持
         self.contentLabel.alpha = 0.0f;
         CGFloat x2 = (180+64)*imageScale;
-        CGFloat originX = -((x2 - 320.0)/2);
+        CGFloat originX = -((x2 - kScreenWidth)/2);
         CGRect rect = CGRectMake(originX, 0, x2, 180+64);
         self.bottomImageView.frame = rect;
         self.visualEffectView.frame = rect;
@@ -144,7 +143,7 @@ const CGFloat imageScale = 16.0f/9;
         self.contentLabel.alpha = 0.0f;
         self.visualEffectView.alpha = 0.0f;
         CGFloat x2 = (-self.yOffset + 64)*imageScale;
-        CGFloat originX = -((x2 - 320.0)/2);
+        CGFloat originX = -((x2 - kScreenWidth)/2);
         CGRect rect = CGRectMake(originX, 0, x2, - self.yOffset + 64);
         self.bottomImageView.frame = rect;
         self.visualEffectView.frame = rect;
@@ -153,7 +152,7 @@ const CGFloat imageScale = 16.0f/9;
         self.visualEffectView.alpha = radius - 0.1;
         self.contentLabel.alpha = radius;
         CGFloat x2 = (-self.yOffset + 64)*imageScale;
-        CGFloat originX = -((x2 - 320.0)/2);
+        CGFloat originX = -((x2 - kScreenWidth)/2);
         CGRect rect = CGRectMake(originX, 0, x2, - self.yOffset + 64);
         self.bottomImageView.frame = rect;
         self.visualEffectView.frame = rect;
@@ -176,8 +175,8 @@ const CGFloat imageScale = 16.0f/9;
 
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, 320, 568-64) style:(UITableViewStyleGrouped)];
-        _tableView.contentInset = UIEdgeInsetsMake(320-64, 0, 0, 0);
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 568-64) style:(UITableViewStyleGrouped)];
+        _tableView.contentInset = UIEdgeInsetsMake(kScreenWidth - 64, 0, 0, 0);
         _tableView.delegate = self;
         _tableView.dataSource = self;
     }
@@ -193,7 +192,7 @@ const CGFloat imageScale = 16.0f/9;
 
 - (UILabel *)contentLabel{
     if (!_contentLabel) {
-        _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -((400)/2 - 30), 320, 60)];
+        _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -((400)/2 - 30), kScreenWidth, 60)];
         _contentLabel.text = @"happy,weekend";
         _contentLabel.textColor = [UIColor whiteColor];
         _contentLabel.font = [UIFont systemFontOfSize:28.0f];
@@ -207,10 +206,10 @@ const CGFloat imageScale = 16.0f/9;
 - (UIImageView *)bottomImageView{
     if (!_bottomImageView) {
         
-        int x2 = 320*imageScale;
-        int originX = -((x2 - 320.0)/2);
+        int x2 = kScreenWidth*imageScale;
+        int originX = -((x2 - kScreenWidth)/2);
         _bottomImageView = [[UIImageView alloc] init];
-        _bottomImageView.frame = CGRectMake(originX, 0, x2, 320);
+        _bottomImageView.frame = CGRectMake(originX, 0, x2, kScreenWidth);
     }
     return _bottomImageView;
 }
