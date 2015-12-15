@@ -33,7 +33,7 @@ a animation view like week app.Enjoy it!!!
 
 ---
 
-![](https://github.com/zhaiyjgithub/weekend/raw/master/weekend.gif)  
+![](https://github.com/zhaiyjgithub/weekend/raw/master/week.gif)  
 
 
 	
