@@ -88,7 +88,7 @@ const CGFloat imageScale = 16.0f/9;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 30;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -139,7 +139,7 @@ const CGFloat imageScale = 16.0f/9;
         self.bottomImageView.frame = rect;
         self.visualEffectView.frame = rect;
         self.visualEffectView.alpha = 0.0;
-    }else if ((self.yOffset >= -180.0) && (self.yOffset < 280.0f)) {//320->180 变小
+    }else if ((self.yOffset < -180.0) && (self.yOffset >=  -280.0f)) {//320->180 变小
         self.contentLabel.alpha = 0.0f;
         self.visualEffectView.alpha = 0.0f;
         CGFloat x2 = (-self.yOffset + 64)*imageScale;

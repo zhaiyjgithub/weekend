@@ -30,26 +30,30 @@
    // UIViewController * toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     if ([fromVC isKindOfClass:[ViewController class]]) { //push
-        toViewController.view.alpha = 0.0;
+        //toViewController.view.alpha = 0.0;
         UIImageView * toViewFoodImageView = ((detailItemViewController *)toViewController).bottomImageView;
         
         toViewFoodImageView.frame =  ((detailItemViewController *)toViewController).imageViewOriginRect;///CGRectMake(-500, -320, 568, 320);
-        
+        toViewController.view.backgroundColor = [UIColor clearColor];
         [UIView animateWithDuration:0.3f animations:^{
-            toViewController.view.alpha = 1.0;
+            // toViewController.view.alpha = 1.0;
             CGFloat imageScale = 16.0f/9;
             int x2 = 320*imageScale;
             int originX = -((x2 - 320.0)/2);
             toViewFoodImageView.frame = CGRectMake(originX, 0, x2, 320);
         } completion:^(BOOL finished) {
+            fromVC.view.backgroundColor = [UIColor whiteColor];
+            toViewController.view.backgroundColor = [UIColor whiteColor];
             [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
         }];
     }else if ([fromVC isKindOfClass:[detailItemViewController class]]){//pop
-        toViewController.view.alpha = 0.0f;
+        toViewController.view.alpha = 1.0f;
         UIImageView * fromFoodImageView = ((detailItemViewController *)fromVC).bottomImageView;
-        [UIView animateWithDuration:0.1f animations:^{
+        ((ViewController *)toViewController).towerImageView.frame = fromFoodImageView.frame;
+        [UIView animateWithDuration:0.5f animations:^{
             toViewController.view.alpha = 1.0f;
-            fromFoodImageView.frame =  ((detailItemViewController *)fromVC).imageViewOriginRect;//CGRectMake(20, 400, 320, 180);
+            //fromFoodImageView.frame =  ((detailItemViewController *)fromVC).imageViewOriginRect;//CGRectMake(20, 400, 320, 180);
+            ((ViewController *)toViewController).towerImageView.frame = CGRectMake(80, 100 ,160, 90);
         } completion:^(BOOL finished) {
             [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
         }];

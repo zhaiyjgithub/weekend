@@ -10,6 +10,6 @@
 
 @interface ViewController : UIViewController
 @property(nonatomic,weak)UIButton * btn;
-
+@property(nonatomic,weak)UIImageView * towerImageView;
 @end
 

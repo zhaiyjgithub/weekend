@@ -32,8 +32,9 @@
     UITapGestureRecognizer * gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImageView:)];
     
     [imageView addGestureRecognizer:gesture];
+    self.towerImageView = imageView;
     
-    UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(100, 250, 100, 64)];
+    UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(100, 450, 100, 64)];
     [btn setTitle:@"next" forState:(UIControlStateNormal)];
     [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     btn.backgroundColor = [UIColor redColor];
